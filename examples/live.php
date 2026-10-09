@@ -34,9 +34,11 @@ function fakeCnp(): string
 
 /**
  * Sends a message, then waits for its result and commits it. A result that
- * belongs to some other message is left in the queue, uncommitted.
+ * belongs to some other message is left in the queue, uncommitted, unless
+ * $skipOthers says such results are expected (the other party of a proposal
+ * is notified through its own queue) and may be shown and committed.
  */
-function sendAndAwait(Reges $reges, Message $message, int $timeoutSeconds = 90): ?Result
+function sendAndAwait(Reges $reges, Message $message, int $timeoutSeconds = 90, bool $skipOthers = false): ?Result
 {
     try {
         $envelope = $reges->envelope($message);
@@ -72,6 +74,12 @@ function sendAndAwait(Reges $reges, Message $message, int $timeoutSeconds = 90):
         }
 
         if ($result->messageId !== $receipt->messageId) {
+            if ($skipOthers) {
+                echo "   (other result: {$result->operation} {$result->code}: {$result->description})\n";
+                $reges->results()->commit();
+                continue;
+            }
+
             echo "   the queue holds a result for another message ({$result->operation} {$result->messageId}); leaving it uncommitted\n";
 
             return null;
@@ -142,7 +150,7 @@ final class Progress
 
     private string $file;
 
-    public function __construct(private Reges $reges, string $name)
+    public function __construct(private Reges $reges, string $name, private bool $skipOthers = false)
     {
         $this->file = dirname(__DIR__) . "/playground/{$name}.json";
         $this->state = is_file($this->file)
@@ -152,8 +160,11 @@ final class Progress
 
     /**
      * @param callable(): Message $message Built only when the step actually runs
+     * @param Reges|null          $as       Sends as another registry than the one the run started with
+     * @param list<string>        $needs    Earlier steps this one builds on; it is skipped if one did not succeed
+     * @param bool                $optional Carries on with the next step if this one fails
      */
-    public function step(string $name, callable $message): void
+    public function step(string $name, callable $message, ?Reges $as = null, array $needs = [], bool $optional = false): void
     {
         if (isset($this->state[$name])) {
             echo "== {$name}: already done\n";
@@ -161,10 +172,22 @@ final class Progress
             return;
         }
 
+        foreach ($needs as $needed) {
+            if (!isset($this->state[$needed])) {
+                echo "== {$name}: skipped, {$needed} did not succeed\n";
+
+                return;
+            }
+        }
+
         echo "== {$name}\n";
-        $result = sendAndAwait($this->reges, $message());
+        $result = sendAndAwait($as ?? $this->reges, $message(), skipOthers: $this->skipOthers);
 
         if (!$result?->isSuccess()) {
+            if ($optional) {
+                return;
+            }
+
             exit(1);
         }
 

@@ -18,8 +18,9 @@ use slash197\Reges\Operation;
  *    Keep it: CorectieIstoricContract and RadiereIstoricContract need it.
  *    (CorectieIstoricContract answers with the id of the entry it corrected.)
  * RadiereIstoricContract and RadiereSalariat come back without a ref.
- * "secRef" is the destination employer's employee reference on an accepted
- * proposal. It has nothing to do with history.
+ * "secRef" is a second reference that only proposal operations return (on an
+ * accepted proposal, the employee REGES created at the destination employer).
+ * It has nothing to do with history.
  */
 final readonly class Result
 {
