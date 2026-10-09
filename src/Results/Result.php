@@ -16,6 +16,8 @@ use slash197\Reges\Operation;
  *    the contract REGES created in the destination employer's registry;
  *  - any other contract operation: the history entry the operation created.
  *    Keep it: CorectieIstoricContract and RadiereIstoricContract need it.
+ *    (CorectieIstoricContract answers with the id of the entry it corrected.)
+ * RadiereIstoricContract and RadiereSalariat come back without a ref.
  * "secRef" is the destination employer's employee reference on an accepted
  * proposal. It has nothing to do with history.
  */

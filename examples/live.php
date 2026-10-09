@@ -131,6 +131,53 @@ function testContinut(string $salariatId, string $numarContract, DateTimeImmutab
     );
 }
 
+/**
+ * Runs a sequence of messages, remembering in a playground file the "ref" each
+ * one returned. A run that stops at a failed step picks up there next time.
+ */
+final class Progress
+{
+    /** @var array<string, mixed> */
+    public array $state;
+
+    private string $file;
+
+    public function __construct(private Reges $reges, string $name)
+    {
+        $this->file = dirname(__DIR__) . "/playground/{$name}.json";
+        $this->state = is_file($this->file)
+            ? json_decode((string) file_get_contents($this->file), true, 512, JSON_THROW_ON_ERROR)
+            : [];
+    }
+
+    /**
+     * @param callable(): Message $message Built only when the step actually runs
+     */
+    public function step(string $name, callable $message): void
+    {
+        if (isset($this->state[$name])) {
+            echo "== {$name}: already done\n";
+
+            return;
+        }
+
+        echo "== {$name}\n";
+        $result = sendAndAwait($this->reges, $message());
+
+        if (!$result?->isSuccess()) {
+            exit(1);
+        }
+
+        $this->state[$name] = $result->ref ?? true;
+        $this->save();
+    }
+
+    public function save(): void
+    {
+        file_put_contents($this->file, pretty($this->state) . "\n");
+    }
+}
+
 function pretty(mixed $value): string
 {
     return json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);

@@ -21,32 +21,14 @@ use slash197\Reges\Support\Dates;
 $reges = require __DIR__ . '/bootstrap.php';
 require __DIR__ . '/live.php';
 
-$file = dirname(__DIR__) . '/playground/suspension.json';
-$state = is_file($file) ? json_decode((string) file_get_contents($file), true, 512, JSON_THROW_ON_ERROR) : [];
-
-$step = static function (string $name, callable $message) use ($reges, $file, &$state): void {
-    if (isset($state[$name])) {
-        echo "== {$name}: already done\n";
-
-        return;
-    }
-
-    echo "== {$name}\n";
-    $result = sendAndAwait($reges, $message());
-
-    if (!$result?->isSuccess()) {
-        exit(1);
-    }
-
-    $state[$name] = $result->ref;
-    file_put_contents($file, pretty($state) . "\n");
-};
+$progress = new Progress($reges, 'suspension');
+$state = &$progress->state;
 
 $state['cnp'] ??= fakeCnp();
 $state['start'] ??= today()->format('Y-m-d');
 $start = Dates::date($state['start']);
 
-$step('salariat', static fn () => Message::salariat(Operation::InregistrareSalariat, new InfoSalariat(
+$progress->step('salariat', fn () => Message::salariat(Operation::InregistrareSalariat, new InfoSalariat(
     cnp: $state['cnp'],
     nume: 'TESTESCU',
     prenume: 'ANDREI',
@@ -56,7 +38,7 @@ $step('salariat', static fn () => Message::salariat(Operation::InregistrareSalar
     nationalitate: 'România',
 )));
 
-$step('contract', static fn () => Message::contract(
+$progress->step('contract', fn () => Message::contract(
     Operation::AdaugareContract,
     continut: testContinut($state['salariat'], 'TEST-' . substr($state['cnp'], -4), $start, 5000),
 ));
@@ -69,14 +51,14 @@ $suspendare = static fn (?DateTimeImmutable $incetare = null) => new ActiuneSusp
     explicatie: 'Acordul partilor',
 );
 
-$step('suspendare', static fn () => Message::contract(
+$progress->step('suspendare', fn () => Message::contract(
     Operation::SuspendareContract,
     $state['contract'],
     actiune: $suspendare(),
     documentJustificativ: new DocumentJustificativ('Decizie', 'S-1', $start),
 ));
 
-$step('incetareSuspendare', static fn () => Message::contract(
+$progress->step('incetareSuspendare', fn () => Message::contract(
     Operation::IncetareSuspendareContract,
     $state['contract'],
     actiune: $suspendare($start->modify('+10 days')),
