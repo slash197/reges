@@ -12,7 +12,24 @@
         }
     ],
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-simplexml": "*",
+        "nyholm/psr7": "^1.8",
+        "psr/clock": "^1.0",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1 || ^2.0",
+        "psr/log": "^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.9",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5"
+    },
+    "suggest": {
+        "guzzlehttp/guzzle": "Any PSR-18 HTTP client works; Guzzle is the one this package is tested with"
     },
     "autoload": {
         "psr-4": {

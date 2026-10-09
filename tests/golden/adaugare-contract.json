@@ -1,0 +1,71 @@
+{
+    "$type": "contract",
+    "header": {
+        "messageId": "117f9b03-9efb-4f5e-8eab-7ab3b0c792af",
+        "clientApplication": "Payroll",
+        "version": "1.0",
+        "operation": "AdaugareContract",
+        "sessionId": "117f9b04-9efb-4f5e-8ebb-7ab3b0c792cf",
+        "user": "Ion Popescu",
+        "timestamp": "2026-03-10T09:30:00+02:00",
+        "authorId": "caee860a-daea-480e-a945-bdd3579477ef"
+    },
+    "continut": {
+        "$type": "continutContract",
+        "referintaSalariat": {
+            "$type": "referinta",
+            "id": "beee0a8b-4dca-41bc-906c-e79627452b1e"
+        },
+        "cor": {
+            "cod": 251204,
+            "versiune": 10
+        },
+        "dataConsemnare": "2026-03-01T00:00:00+02:00",
+        "dataContract": "2026-02-20T00:00:00+02:00",
+        "dataInceputContract": "2026-03-01T00:00:00+02:00",
+        "numarContract": "12345",
+        "radiat": false,
+        "salariu": 5000,
+        "timpMunca": {
+            "durata": 8,
+            "intervalTimp": "OrePeZi",
+            "norma": "NormaIntreaga840",
+            "repartizare": "OreDeZi"
+        },
+        "sporuriSalariu": [
+            {
+                "tip": {
+                    "nume": "Spor de vechime",
+                    "referinta": {
+                        "$type": "referinta",
+                        "id": "7178f5a4-687f-4da7-928c-1395ec531879"
+                    }
+                },
+                "valoare": 10,
+                "isProcent": true
+            },
+            {
+                "tip": {
+                    "$type": "sporAngajator",
+                    "nume": "Salariu de merit",
+                    "referinta": {
+                        "$type": "referinta",
+                        "id": "30195246-89ce-4e33-ac15-f4e8628cab4d"
+                    }
+                },
+                "valoare": 500,
+                "isProcent": false
+            }
+        ],
+        "tipContract": "ContractIndividualMunca",
+        "tipDurata": "Nedeterminata",
+        "tipNorma": "NormaIntreaga",
+        "tipLocMunca": "Fix",
+        "judetLocMunca": "CJ",
+        "nivelStudii": "S",
+        "stareCurenta": {},
+        "localitateLocMunca": {
+            "codSiruta": 54975
+        }
+    }
+}

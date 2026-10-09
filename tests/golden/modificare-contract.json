@@ -1,0 +1,46 @@
+{
+    "$type": "contract",
+    "header": {
+        "messageId": "117f9b03-9efb-4f5e-8eab-7ab3b0c792af",
+        "clientApplication": "Payroll",
+        "version": "1.0",
+        "operation": "ModificareContract",
+        "sessionId": "117f9b04-9efb-4f5e-8ebb-7ab3b0c792cf",
+        "user": "Ion Popescu",
+        "timestamp": "2026-03-10T09:30:00+02:00",
+        "authorId": "caee860a-daea-480e-a945-bdd3579477ef"
+    },
+    "referintaContract": {
+        "$type": "referinta",
+        "id": "0c2e8adf-44dc-4a41-b1e5-3c4013f306ac"
+    },
+    "continut": {
+        "$type": "continutContract",
+        "referintaSalariat": {
+            "$type": "referinta",
+            "id": "beee0a8b-4dca-41bc-906c-e79627452b1e"
+        },
+        "cor": {
+            "cod": 251204,
+            "versiune": 10
+        },
+        "dataConsemnare": "2026-03-10T09:30:00+02:00",
+        "dataContract": "2026-02-20T00:00:00+02:00",
+        "dataInceputContract": "2026-03-01T00:00:00+02:00",
+        "numarContract": "12345",
+        "radiat": false,
+        "salariu": 6200.5,
+        "timpMunca": {
+            "durata": 8,
+            "intervalTimp": "OrePeZi",
+            "norma": "NormaIntreaga840",
+            "repartizare": "OreDeZi"
+        },
+        "sporuriSalariu": [],
+        "tipContract": "ContractIndividualMunca",
+        "tipDurata": "Nedeterminata",
+        "tipNorma": "NormaIntreaga",
+        "nivelStudii": "S",
+        "stareCurenta": {}
+    }
+}

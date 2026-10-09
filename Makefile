@@ -3,7 +3,7 @@ export GID := $(shell id -g)
 
 RUN := docker compose run --rm php
 
-.PHONY: build install validate shell
+.PHONY: build install validate test stan check smoke shell
 
 build:
 	docker compose build
@@ -13,6 +13,18 @@ install:
 
 validate:
 	$(RUN) composer validate --strict
+
+test:
+	$(RUN) vendor/bin/phpunit
+
+stan:
+	$(RUN) vendor/bin/phpstan analyse --memory-limit=1G
+
+check: validate stan test
+
+# Read-only calls against the REGES test environment; needs .env (see .env.example)
+smoke:
+	$(RUN) php bin/smoke.php
 
 shell:
 	$(RUN) sh

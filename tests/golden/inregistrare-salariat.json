@@ -1,0 +1,30 @@
+{
+    "$type": "salariat",
+    "header": {
+        "messageId": "117f9b03-9efb-4f5e-8eab-7ab3b0c792af",
+        "clientApplication": "Payroll",
+        "version": "1.0",
+        "operation": "InregistrareSalariat",
+        "sessionId": "117f9b04-9efb-4f5e-8ebb-7ab3b0c792cf",
+        "user": "Ion Popescu",
+        "timestamp": "2026-03-10T09:30:00+02:00",
+        "authorId": "caee860a-daea-480e-a945-bdd3579477ef"
+    },
+    "info": {
+        "adresa": "STR. SALARIATULUI, NR. 1",
+        "cnp": "1800612015459",
+        "nume": "POPESCU",
+        "prenume": "ION",
+        "tipActIdentitate": "CarteIdentitate",
+        "taraDomiciliu": {
+            "nume": "ROMÂNIA"
+        },
+        "nationalitate": {
+            "nume": "ROMÂNIA"
+        },
+        "localitate": {
+            "codSiruta": 179141
+        },
+        "dataNastere": "1980-06-12T00:00:00+03:00"
+    }
+}
