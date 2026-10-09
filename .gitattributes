@@ -12,3 +12,5 @@
 /.env.example export-ignore
 /phpunit.xml.dist export-ignore
 /phpstan.neon.dist export-ignore
+/examples export-ignore
+/playground export-ignore

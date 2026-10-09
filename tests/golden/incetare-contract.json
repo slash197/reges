@@ -16,13 +16,13 @@
     },
     "actiune": {
         "$type": "actiuneIncetare",
-        "dataIncetare": "2026-03-31T00:00:00+03:00",
+        "dataIncetare": "2026-03-31T03:00:00+03:00",
         "temeiLegal": "Art55LitB",
         "explicatie": "Acordul partilor"
     },
     "documentJustificativ": {
         "tipDocumentJustificativ": "Decizie",
         "numarDocumentJustificativ": "D-17",
-        "dataDocumentJustificativ": "2026-03-09T00:00:00+02:00"
+        "dataDocumentJustificativ": "2026-03-09T02:00:00+02:00"
     }
 }

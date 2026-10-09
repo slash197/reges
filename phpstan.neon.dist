@@ -1,5 +1,7 @@
 parameters:
     level: 8
     paths:
+        - examples
+        - bin
         - src
         - tests

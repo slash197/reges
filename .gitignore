@@ -5,5 +5,7 @@
 /.idea/
 /.vscode/
 /.claude
+/playground/*
+!/playground/.gitkeep
 .env
 *.code-workspace

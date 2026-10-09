@@ -11,6 +11,7 @@ use Slash197\Reges\Data\DetaliiPropunereDetasare;
 use Slash197\Reges\Data\DetaliiPropunereMutare;
 use Slash197\Reges\Data\DocumentJustificativ;
 use Slash197\Reges\Data\InfoSalariat;
+use Slash197\Reges\Data\TimpMunca;
 use Slash197\Reges\Exception\ValidationException;
 use Slash197\Reges\Message;
 use Slash197\Reges\Operation;
@@ -40,6 +41,10 @@ final class ValidationTest extends RegesTestCase
             'continut.tipContract',
             'continut.tipDurata',
             'continut.tipNorma',
+            'continut.timpMunca.intervalTimp',
+            'continut.timpMunca.repartizareMunca',
+            'continut.tipLocMunca',
+            'continut.judetLocMunca',
             'continut.nivelStudii',
         ], array_keys($errors));
         self::assertSame(['required'], array_values(array_unique($errors)));
@@ -86,27 +91,61 @@ final class ValidationTest extends RegesTestCase
     }
 
     /**
-     * The education level became mandatory for anything recorded from 1 April 2025.
+     * REGES asks for more detail on any contract recorded from 1 April 2025,
+     * and answers "Repartizare timp muncă lipsă!" and the like without it.
      */
-    public function testNivelStudiiIsRequiredFromApril2025(): void
+    public function testContractsRecordedFromApril2025NeedTheExtendedContent(): void
     {
-        $before = $this->continut(nivelStudii: null, dataConsemnare: Dates::date('2025-03-31'));
-        $after = $this->continut(nivelStudii: null, dataConsemnare: Dates::date('2025-04-01'));
+        $bare = [
+            'timpMunca' => new TimpMunca('NormaIntreaga840', 'OreDeZi'),
+            'tipLocMunca' => null,
+            'judetLocMunca' => null,
+            'nivelStudii' => null,
+        ];
+        $before = $this->continut(...$bare, dataConsemnare: Dates::date('2025-03-31'));
+        $after = $this->continut(...$bare, dataConsemnare: Dates::date('2025-04-01'));
 
         self::assertSame([], $this->errors(Message::contract(Operation::AdaugareContract, continut: $before)));
         self::assertSame(
-            ['continut.nivelStudii' => 'required'],
+            [
+                'continut.timpMunca.intervalTimp' => 'required',
+                'continut.timpMunca.repartizareMunca' => 'required',
+                'continut.tipLocMunca' => 'required',
+                'continut.judetLocMunca' => 'required',
+                'continut.nivelStudii' => 'required',
+            ],
             $this->errors(Message::contract(Operation::AdaugareContract, continut: $after)),
         );
     }
 
-    public function testNivelStudiiIsNotCheckedOnProposals(): void
+    public function testExtendedContentDependsOnTheScheduleAndWorkplace(): void
+    {
+        $timpMunca = static fn (string $repartizareMunca) => new TimpMunca(
+            'NormaIntreaga840',
+            'OreDeZi',
+            intervalTimp: 'OrePeZi',
+            repartizareMunca: $repartizareMunca,
+        );
+        $errors = fn (mixed ...$overrides) => array_keys($this->errors(
+            Message::contract(Operation::AdaugareContract, continut: $this->continut(...$overrides)),
+        ));
+
+        self::assertSame(
+            ['continut.timpMunca.inceputInterval', 'continut.timpMunca.sfarsitInterval'],
+            $errors(timpMunca: $timpMunca('Zilnic')),
+        );
+        self::assertSame(['continut.timpMunca.tipTura'], $errors(timpMunca: $timpMunca('Schimburi')));
+        self::assertSame(['continut.localitateLocMunca.codSiruta'], $errors(tipLocMunca: 'Fix'));
+        self::assertSame([], $errors(tipLocMunca: 'Fix', localitateLocMunca: 54975));
+    }
+
+    public function testExtendedContentIsNotCheckedOnProposals(): void
     {
         $errors = $this->errors(Message::propunereMutare(
             Operation::AcceptarePropunereMutareContract,
             self::PROPUNERE_ID,
             self::CONTRACT_ID,
-            continutContract: $this->continut(nivelStudii: null),
+            continutContract: $this->continut(nivelStudii: null, tipLocMunca: null, judetLocMunca: null),
             infoSalariat: $this->info(),
         ));
 

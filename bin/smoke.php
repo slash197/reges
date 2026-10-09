@@ -11,29 +11,10 @@ declare(strict_types=1);
  * Needs REGES_CLIENT_ID, REGES_CLIENT_SECRET, REGES_USERNAME and REGES_PASSWORD.
  */
 
-use GuzzleHttp\Client;
-use Slash197\Reges\Config;
-use Slash197\Reges\Credentials;
-use Slash197\Reges\Environment;
 use Slash197\Reges\Exception\RegesException;
-use Slash197\Reges\Reges;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
-
-$env = static fn (string $name): string => trim((string) getenv($name), " \"'");
-
-foreach (['REGES_CLIENT_ID', 'REGES_CLIENT_SECRET', 'REGES_USERNAME', 'REGES_PASSWORD'] as $name) {
-    if ($env($name) === '') {
-        fwrite(STDERR, "{$name} is not set. Copy .env.example to .env and fill it in.\n");
-        exit(2);
-    }
-}
-
-$reges = new Reges(
-    new Config(Environment::Test, $env('REGES_CLIENT_ID'), $env('REGES_CLIENT_SECRET'), 'slash197/reges smoke test', '0'),
-    new Credentials($env('REGES_USERNAME'), $env('REGES_PASSWORD')),
-    new Client(['timeout' => 30, 'http_errors' => false]),
-);
+/** @var Slash197\Reges\Reges $reges */
+$reges = require dirname(__DIR__) . '/examples/bootstrap.php';
 
 $step = static function (string $label, callable $call): void {
     try {

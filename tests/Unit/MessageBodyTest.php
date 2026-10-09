@@ -26,7 +26,7 @@ final class MessageBodyTest extends RegesTestCase
         $continut = $this->continut(dataConsemnare: Dates::date('2026-02-25'));
 
         $adaugare = Message::contract(Operation::AdaugareContract, continut: $continut)->body($now);
-        self::assertSame('2026-02-25T00:00:00+02:00', $adaugare['continut']['dataConsemnare']);
+        self::assertSame('2026-02-25T02:00:00+02:00', $adaugare['continut']['dataConsemnare']);
 
         foreach ([Operation::ModificareContract, Operation::CorectieContract, Operation::CorectieIstoricContract] as $operation) {
             $body = Message::contract($operation, self::CONTRACT_ID, $continut)->body($now);
@@ -45,8 +45,22 @@ final class MessageBodyTest extends RegesTestCase
     {
         self::assertSame('2026-01-15T14:00:00+02:00', Dates::format(new \DateTimeImmutable('2026-01-15T12:00:00Z')));
         self::assertSame('2026-07-15T15:00:00+03:00', Dates::format(new \DateTime('2026-07-15T12:00:00Z')));
-        self::assertSame('2026-07-15T00:00:00+03:00', Dates::format(Dates::date('2026-07-15')));
         self::assertNull(Dates::format(null));
+    }
+
+    /**
+     * REGES records the UTC date of what it is sent: a contract dated midnight
+     * Romanian time on the 8th was registered as dated the 7th.
+     */
+    public function testCalendarDaysKeepTheirDateInUtc(): void
+    {
+        foreach (['2026-01-15' => '2026-01-15T02:00:00+02:00', '2026-07-15' => '2026-07-15T03:00:00+03:00'] as $day => $sent) {
+            self::assertSame($sent, Dates::format(Dates::date($day)));
+            self::assertSame($day, (new \DateTimeImmutable($sent))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d'));
+        }
+
+        $this->expectException(\InvalidArgumentException::class);
+        Dates::date('15.07.2026');
     }
 
     public function testStareCurentaIsAlwaysAnEmptyObject(): void

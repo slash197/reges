@@ -19,7 +19,7 @@ use Slash197\Reges\Support\Uuid;
  */
 final class Validator
 {
-    private const NIVEL_STUDII_REQUIRED_FROM = '2025-04-01';
+    private const EXTENDED_CONTENT_REQUIRED_FROM = '2025-04-01';
 
     private const CONTRACT_REFERINTA = [
         Operation::ModificareContract,
@@ -211,8 +211,8 @@ final class Validator
 
         if ($operation->in(self::CONTRACT_CONTINUT)) {
             $rules += $this->continutRules('continut');
-            if ($this->requiresNivelStudii($body)) {
-                $rules['continut.nivelStudii'] = ['required'];
+            if ($this->requiresExtendedContent($body)) {
+                $rules += $this->extendedContinutRules($body['continut'] ?? []);
             }
         }
 
@@ -420,11 +420,35 @@ final class Validator
     }
 
     /**
-     * The education level became mandatory for anything recorded from 1 April 2025.
+     * What a contract additionally has to say when it is recorded from 1 April 2025.
+     *
+     * @param array<mixed> $continut
+     *
+     * @return array<string, list<string>>
+     */
+    private function extendedContinutRules(array $continut): array
+    {
+        $repartizareMunca = $continut['timpMunca']['repartizareMunca'] ?? null;
+
+        return [
+            'continut.timpMunca.intervalTimp' => ['required'],
+            'continut.timpMunca.repartizareMunca' => ['required'],
+            'continut.timpMunca.tipTura' => $repartizareMunca === 'Schimburi' ? ['required'] : [],
+            'continut.timpMunca.inceputInterval' => $repartizareMunca === 'Zilnic' ? ['required'] : [],
+            'continut.timpMunca.sfarsitInterval' => $repartizareMunca === 'Zilnic' ? ['required'] : [],
+            'continut.tipLocMunca' => ['required'],
+            'continut.judetLocMunca' => ['required'],
+            'continut.localitateLocMunca.codSiruta' => ($continut['tipLocMunca'] ?? null) === 'Fix' ? ['required'] : [],
+            'continut.nivelStudii' => ['required'],
+        ];
+    }
+
+    /**
+     * REGES asks for more detail on any contract recorded from 1 April 2025.
      *
      * @param array<string, mixed> $body
      */
-    private function requiresNivelStudii(array $body): bool
+    private function requiresExtendedContent(array $body): bool
     {
         $date = $body['continut']['dataConsemnare'] ?? null;
         if (!is_string($date) || $date === '') {
@@ -435,7 +459,7 @@ final class Validator
             $timezone = new \DateTimeZone(Dates::TIMEZONE);
             $day = (new \DateTimeImmutable($date))->setTimezone($timezone)->format('Y-m-d');
 
-            return $day >= self::NIVEL_STUDII_REQUIRED_FROM;
+            return $day >= self::EXTENDED_CONTENT_REQUIRED_FROM;
         } catch (\Exception) {
             return false;
         }

@@ -83,10 +83,18 @@ abstract class RegesTestCase extends TestCase
             'dataInceputContract' => Dates::date('2026-03-01'),
             'numarContract' => '12345',
             'salariu' => 5000,
-            'timpMunca' => new TimpMunca(norma: 'NormaIntreaga840', repartizare: 'OreDeZi', durata: 8, intervalTimp: 'OrePeZi'),
+            'timpMunca' => new TimpMunca(
+                norma: 'NormaIntreaga840',
+                repartizare: 'OreDeZi',
+                durata: 8,
+                intervalTimp: 'OrePeZi',
+                repartizareMunca: 'Inegal',
+            ),
             'tipContract' => 'ContractIndividualMunca',
             'tipDurata' => 'Nedeterminata',
             'tipNorma' => 'NormaIntreaga',
+            'tipLocMunca' => 'Mobil',
+            'judetLocMunca' => 'CJ',
             'nivelStudii' => 'S',
         ]);
     }

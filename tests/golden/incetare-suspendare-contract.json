@@ -16,14 +16,14 @@
     },
     "actiune": {
         "$type": "actiuneSuspendare",
-        "dataInceput": "2026-04-01T00:00:00+03:00",
-        "dataSfarsit": "2026-09-30T00:00:00+03:00",
-        "dataIncetareSuspendare": "2026-06-15T00:00:00+03:00",
+        "dataInceput": "2026-04-01T03:00:00+03:00",
+        "dataSfarsit": "2026-09-30T03:00:00+03:00",
+        "dataIncetareSuspendare": "2026-06-15T03:00:00+03:00",
         "temeiLegal": "Art51Alin1LitA"
     },
     "documentJustificativ": {
         "tipDocumentJustificativ": "Cerere",
         "numarDocumentJustificativ": "C-9",
-        "dataDocumentJustificativ": "2026-06-10T00:00:00+03:00"
+        "dataDocumentJustificativ": "2026-06-10T03:00:00+03:00"
     }
 }

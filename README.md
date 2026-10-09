@@ -51,8 +51,8 @@ $receipt = $reges->send(
         prenume: 'ION',
         adresa: 'STR. SALARIATULUI, NR. 1',
         tipActIdentitate: 'CarteIdentitate',
-        taraDomiciliu: 'ROMÂNIA',
-        nationalitate: 'ROMÂNIA',
+        taraDomiciliu: 'România',
+        nationalitate: 'România',
     )),
     user: 'Maria Ionescu',
 );
@@ -102,7 +102,10 @@ make build     # once
 make install
 make check     # composer validate, PHPStan, PHPUnit
 make smoke     # read-only calls against the REGES test environment, needs .env
+make run f=examples/profile.php   # any script, with .env loaded
 ```
+
+`examples/bootstrap.php` returns a client configured from `.env`. `playground/` is ignored by git and is the place for throwaway scripts.
 
 ## Disclaimer
 
