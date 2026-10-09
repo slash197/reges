@@ -1,8 +1,10 @@
 # reges
 
+[![CI](https://github.com/slash197/reges/actions/workflows/ci.yml/badge.svg)](https://github.com/slash197/reges/actions/workflows/ci.yml)
+
 PHP client for the [REGES Online](https://reges.inspectiamuncii.ro) API, the Romanian general register of employees run by Inspecția Muncii.
 
-> **Status: pre-release.** Nothing is tagged yet and the API of this package may still change.
+> **Status: 0.x.** Usable and tested against the REGES test environment, but the API of this package may still change before 1.0. See the [changelog](CHANGELOG.md).
 
 REGES Online replaced Revisal: employers now report employees and contracts to the labour inspectorate through an API. The official documentation is a schema, a Postman collection and a short readme, and the API is strict in ways none of them spell out. This package was extracted from the REGES integration of [Quanty](https://quanty.ro), an invoicing and business administration platform, and packages what that integration learned:
 
@@ -41,8 +43,6 @@ Names that travel on the wire are kept in Romanian, exactly as in the REGES sche
 ```sh
 composer require slash197/reges
 ```
-
-The package will be on Packagist with its first tagged version.
 
 ## Getting started
 
