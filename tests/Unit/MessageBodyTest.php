@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace slash197\Reges\Tests\Unit;
 
 use slash197\Reges\Data\ActiuneIncetare;
+use slash197\Reges\Data\ActiuneSuspendare;
 use slash197\Reges\Data\DetaliiPropunereMutare;
 use slash197\Reges\Data\DetaliiSalariatStrain;
 use slash197\Reges\Data\DocumentJustificativ;
@@ -28,10 +29,46 @@ final class MessageBodyTest extends RegesTestCase
         $adaugare = Message::contract(Operation::AdaugareContract, continut: $continut)->body($now);
         self::assertSame('2026-02-25T02:00:00+02:00', $adaugare['continut']['dataConsemnare']);
 
-        foreach ([Operation::ModificareContract, Operation::CorectieContract, Operation::CorectieIstoricContract] as $operation) {
+        foreach ([Operation::ModificareContract, Operation::CorectieContract] as $operation) {
             $body = Message::contract($operation, self::CONTRACT_ID, $continut)->body($now);
             self::assertSame(self::NOW, $body['continut']['dataConsemnare'], $operation->value);
         }
+    }
+
+    /**
+     * An entry added to or corrected in the history lies in the past, so it
+     * has to say when it took effect. Left unsaid, it is recorded as of now.
+     */
+    public function testHistoryOperationsSayWhenTheirChangeTookEffect(): void
+    {
+        $now = new \DateTimeImmutable(self::NOW);
+        $operations = [
+            Operation::CorectieIstoricContract,
+            Operation::CorectieIstoricContractCuPropagare,
+            Operation::AdaugareModificareInIstoricContract,
+            Operation::AdaugareModificareInIstoricContractCuPropagare,
+        ];
+
+        foreach ($operations as $operation) {
+            $dated = Message::contract($operation, self::CONTRACT_ID, $this->continut(dataConsemnare: Dates::date('2026-02-25')))->body($now);
+            $undated = Message::contract($operation, self::CONTRACT_ID, $this->continut())->body($now);
+
+            self::assertSame('2026-02-25T02:00:00+02:00', $dated['continut']['dataConsemnare'], $operation->value);
+            self::assertSame(self::NOW, $undated['continut']['dataConsemnare'], $operation->value);
+        }
+    }
+
+    public function testASuspensionAddedToTheHistoryIsAnActionWithoutADocument(): void
+    {
+        $body = Message::contract(
+            Operation::AdaugareSuspendareInIstoricContract,
+            self::CONTRACT_ID,
+            actiune: new ActiuneSuspendare(Dates::date('2025-10-06'), 'Art54', Dates::date('2025-10-08')),
+            documentJustificativ: new DocumentJustificativ('Decizie', 'D-1', Dates::date('2025-10-01')),
+        )->body(new \DateTimeImmutable(self::NOW));
+
+        self::assertSame(['referintaContract', 'actiune'], array_keys($body));
+        self::assertSame('actiuneSuspendare', $body['actiune']['$type']);
     }
 
     public function testDataConsemnareDefaultsToTheContractStartWhenAddingAContract(): void

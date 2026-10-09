@@ -217,6 +217,15 @@ if (str_starts_with($flow, 'mutare-')) {
         ), $destinatie),
         default => null,
     };
+
+    // Undoing an accepted transfer is up to the source employer, on its own
+    // contract. The one REGES created at the destination is not "Transferat".
+    if ($flow === 'mutare-acceptare') {
+        $progress->step('anulare', fn () => Message::contract(
+            Operation::AnulareTransferContract,
+            $state['contract'],
+        ), optional: true);
+    }
 }
 
 // Whatever each party was told along the way.

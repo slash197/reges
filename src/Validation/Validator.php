@@ -57,7 +57,6 @@ final class Validator
         Operation::CorectieContract,
         Operation::CorectieIstoricContract,
         Operation::AdaugareModificareInIstoricContract,
-        Operation::AdaugareSuspendareInIstoricContract,
         Operation::CorectieIstoricContractCuPropagare,
         Operation::AdaugareModificareInIstoricContractCuPropagare,
     ];
@@ -81,6 +80,7 @@ final class Validator
     ];
 
     private const ACTIUNE_SUSPENDARE = [
+        Operation::AdaugareSuspendareInIstoricContract,
         Operation::SuspendareContract,
         Operation::ModificareSuspendareContract,
         Operation::IncetareSuspendareContract,

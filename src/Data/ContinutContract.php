@@ -16,10 +16,12 @@ final readonly class ContinutContract
 {
     /**
      * @param string|null            $referintaSalariat  REGES id of the employee
-     * @param \DateTimeInterface|null $dataConsemnare    Only used by AdaugareContract, where it defaults to
-     *                                                   dataInceputContract. Every other operation reports the
-     *                                                   moment the message is built, because REGES rejects a
-     *                                                   value that does not advance from one message to the next.
+     * @param \DateTimeInterface|null $dataConsemnare    The date the content takes effect. Used by AdaugareContract,
+     *                                                   where it defaults to dataInceputContract, and by the
+     *                                                   operations on the contract's history, which place a change
+     *                                                   in the past. Every other operation reports the moment the
+     *                                                   message is built, because REGES rejects a value that does
+     *                                                   not advance from one message to the next.
      * @param string|null            $tipNorma           Either norm code set is accepted, see {@see Norma}
      * @param list<SporSalariu>|null $sporuriSalariu     Null leaves bonuses unchanged, an empty list clears them
      * @param int|null               $localitateLocMunca SIRUTA code of the workplace locality

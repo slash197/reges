@@ -68,7 +68,7 @@ final class OperationRulesTest extends RegesTestCase
         'CorectieIstoricContract' => ['continut', 'referintaContract'],
         'RadiereIstoricContract' => ['motivRadiere', 'referintaContract'],
         'AdaugareModificareInIstoricContract' => ['continut', 'referintaContract'],
-        'AdaugareSuspendareInIstoricContract' => ['continut', 'referintaContract'],
+        'AdaugareSuspendareInIstoricContract' => ['actiune', 'referintaContract'],
         'CorectieIstoricContractCuPropagare' => ['continut', 'referintaContract'],
         'AdaugareModificareInIstoricContractCuPropagare' => ['continut', 'referintaContract'],
 

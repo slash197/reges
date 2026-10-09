@@ -30,11 +30,20 @@ final readonly class Message
         Operation::IncetareSuspendareContract,
         Operation::CorectieIncetareSuspendareContract,
         Operation::ReactivareContract,
+        Operation::AdaugareSuspendareInIstoricContract,
         Operation::CorectieDetasareContract,
         Operation::PrelungireDetasareContract,
         Operation::ModificareDetasareContract,
         Operation::IncetareDetasareContract,
         Operation::CorectieIncetareDetasareContract,
+    ];
+
+    /** Operations on the contract's history, which say themselves when the change they describe took effect. */
+    private const ISTORIC = [
+        Operation::CorectieIstoricContract,
+        Operation::CorectieIstoricContractCuPropagare,
+        Operation::AdaugareModificareInIstoricContract,
+        Operation::AdaugareModificareInIstoricContractCuPropagare,
     ];
 
     private const DOCUMENT_JUSTIFICATIV = [
@@ -152,7 +161,9 @@ final readonly class Message
      *
      * @param string|null $referintaContract REGES id of the contract. CorectieIstoricContract and
      *                                       RadiereIstoricContract take the id of the history entry instead
-     *                                       (the "ref" of the result of the operation that created it).
+     *                                       (the "ref" of the result of the operation that created it), and
+     *                                       the operations that add to the history take the id of the entry
+     *                                       the new one goes after.
      */
     public static function contract(
         Operation $operation,
@@ -321,11 +332,11 @@ final readonly class Message
 
         $continut = $this->parts['continut'];
         if ($continut instanceof ContinutContract) {
-            $adaugare = $this->operation === Operation::AdaugareContract;
-
-            $body['continut'] = $continut->toArray(
-                $adaugare ? ($continut->dataConsemnare ?? $continut->dataInceputContract) : $now,
-            );
+            $body['continut'] = $continut->toArray(match (true) {
+                $this->operation === Operation::AdaugareContract => $continut->dataConsemnare ?? $continut->dataInceputContract,
+                $this->operation->in(self::ISTORIC) => $continut->dataConsemnare ?? $now,
+                default => $now,
+            });
         }
 
         if ($this->parts['actiune'] instanceof Actiune && $this->operation->in(self::ACTIUNE)) {
