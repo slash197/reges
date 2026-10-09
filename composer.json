@@ -1,0 +1,31 @@
+{
+    "name": "slash197/reges",
+    "description": "PHP client for the REGES Online API (Romanian general register of employees, Inspectia Muncii)",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["reges", "reges-online", "revisal", "inspectia-muncii", "romania", "payroll", "hr"],
+    "homepage": "https://github.com/slash197/reges",
+    "authors": [
+        {
+            "name": "Levi Szocs",
+            "email": "levi.szocs@codescape.ro"
+        }
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Slash197\\Reges\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Slash197\\Reges\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
