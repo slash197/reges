@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Unit;
+namespace slash197\Reges\Tests\Unit;
 
-use Slash197\Reges\Data\ActiuneIncetare;
-use Slash197\Reges\Data\DetaliiPropunereMutare;
-use Slash197\Reges\Data\DetaliiSalariatStrain;
-use Slash197\Reges\Data\DocumentJustificativ;
-use Slash197\Reges\Data\InfoSalariat;
-use Slash197\Reges\Data\Norma;
-use Slash197\Reges\Data\SporSalariu;
-use Slash197\Reges\Data\TimpMunca;
-use Slash197\Reges\Message;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Support\Dates;
-use Slash197\Reges\Support\Uuid;
-use Slash197\Reges\Tests\Support\RegesTestCase;
+use slash197\Reges\Data\ActiuneIncetare;
+use slash197\Reges\Data\DetaliiPropunereMutare;
+use slash197\Reges\Data\DetaliiSalariatStrain;
+use slash197\Reges\Data\DocumentJustificativ;
+use slash197\Reges\Data\InfoSalariat;
+use slash197\Reges\Data\Norma;
+use slash197\Reges\Data\SporSalariu;
+use slash197\Reges\Data\TimpMunca;
+use slash197\Reges\Message;
+use slash197\Reges\Operation;
+use slash197\Reges\Support\Dates;
+use slash197\Reges\Support\Uuid;
+use slash197\Reges\Tests\Support\RegesTestCase;
 
 final class MessageBodyTest extends RegesTestCase
 {

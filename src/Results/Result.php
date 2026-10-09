@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Results;
+namespace slash197\Reges\Results;
 
-use Slash197\Reges\Operation;
+use slash197\Reges\Operation;
 
 /**
  * The outcome of a message, read from the employer's result queue.

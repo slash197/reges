@@ -6,12 +6,16 @@ declare(strict_types=1);
  * Helpers for scripts that send real messages to the REGES test environment.
  */
 
-use Slash197\Reges\Envelope;
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Exception\ValidationException;
-use Slash197\Reges\Message;
-use Slash197\Reges\Reges;
-use Slash197\Reges\Results\Result;
+use slash197\Reges\Data\ContinutContract;
+use slash197\Reges\Data\Cor;
+use slash197\Reges\Data\TimpMunca;
+use slash197\Reges\Envelope;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Exception\ValidationException;
+use slash197\Reges\Message;
+use slash197\Reges\Reges;
+use slash197\Reges\Results\Result;
+use slash197\Reges\Support\Dates;
 
 /**
  * A CNP with a valid checksum for a made-up man born on 12 June 1980.
@@ -83,6 +87,48 @@ function sendAndAwait(Reges $reges, Message $message, int $timeoutSeconds = 90):
     echo "   no result after {$timeoutSeconds}s\n";
 
     return null;
+}
+
+/**
+ * The calendar day it is now in Romania, optionally shifted ("+1 day").
+ */
+function today(string $modifier = '+0 days'): DateTimeImmutable
+{
+    $day = (new DateTimeImmutable('now', new DateTimeZone(Dates::TIMEZONE)))->format('Y-m-d');
+
+    return Dates::date($day)->modify($modifier);
+}
+
+/**
+ * A complete full-time contract for the given employee: an analyst with a
+ * daily 09:00-17:00 schedule at a fixed workplace.
+ */
+function testContinut(string $salariatId, string $numarContract, DateTimeImmutable $start, int $salariu): ContinutContract
+{
+    return new ContinutContract(
+        referintaSalariat: $salariatId,
+        cor: new Cor(251201, 11),
+        dataContract: $start->modify('-1 day'),
+        dataInceputContract: $start,
+        numarContract: $numarContract,
+        salariu: $salariu,
+        timpMunca: new TimpMunca(
+            norma: 'NormaIntreaga840',
+            repartizare: 'OreDeZi',
+            durata: 8,
+            intervalTimp: 'OrePeZi',
+            repartizareMunca: 'Zilnic',
+            inceputInterval: $start->setTime(9, 0),
+            sfarsitInterval: $start->setTime(17, 0),
+        ),
+        tipContract: 'ContractIndividualMunca',
+        tipDurata: 'Nedeterminata',
+        tipNorma: 'NormaIntreaga',
+        tipLocMunca: 'Fix',
+        judetLocMunca: 'MS',
+        localitateLocMunca: 114328,
+        nivelStudii: 'Superioare',
+    );
 }
 
 function pretty(mixed $value): string

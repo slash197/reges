@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges;
+namespace slash197\Reges;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Clock\ClockInterface;
@@ -11,21 +11,21 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Slash197\Reges\Auth\Authenticator;
-use Slash197\Reges\Auth\InMemoryTokenStore;
-use Slash197\Reges\Auth\Token;
-use Slash197\Reges\Auth\TokenStore;
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Exception\ValidationException;
-use Slash197\Reges\Http\Connection;
-use Slash197\Reges\Http\Transport;
-use Slash197\Reges\Results\Results;
-use Slash197\Reges\Support\Dates;
-use Slash197\Reges\Support\Json;
-use Slash197\Reges\Support\SystemClock;
-use Slash197\Reges\Support\Uuid;
-use Slash197\Reges\Validation\NomenclatorLookup;
-use Slash197\Reges\Validation\Validator;
+use slash197\Reges\Auth\Authenticator;
+use slash197\Reges\Auth\InMemoryTokenStore;
+use slash197\Reges\Auth\Token;
+use slash197\Reges\Auth\TokenStore;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Exception\ValidationException;
+use slash197\Reges\Http\Connection;
+use slash197\Reges\Http\Transport;
+use slash197\Reges\Results\Results;
+use slash197\Reges\Support\Dates;
+use slash197\Reges\Support\Json;
+use slash197\Reges\Support\SystemClock;
+use slash197\Reges\Support\Uuid;
+use slash197\Reges\Validation\NomenclatorLookup;
+use slash197\Reges\Validation\Validator;
 
 /**
  * Client for the REGES Online API, on behalf of one employer registry.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Support;
+namespace slash197\Reges\Tests\Support;
 
 use Nyholm\Psr7\Response;
 use Psr\Http\Client\ClientExceptionInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Validation;
+namespace slash197\Reges\Validation;
 
 /**
  * Lets validation check values against your local copy of the REGES

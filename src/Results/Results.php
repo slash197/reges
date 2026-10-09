@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Results;
+namespace slash197\Reges\Results;
 
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Http\Connection;
-use Slash197\Reges\Http\Transport;
-use Slash197\Reges\Support\Json;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Http\Connection;
+use slash197\Reges\Http\Transport;
+use slash197\Reges\Support\Json;
 
 /**
  * The employer's queue of results, read one at a time in two steps.

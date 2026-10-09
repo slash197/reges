@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Unit;
+namespace slash197\Reges\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use Slash197\Reges\Envelope;
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Exception\ValidationException;
-use Slash197\Reges\Message;
-use Slash197\Reges\MessageType;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Support\Uuid;
-use Slash197\Reges\Tests\Support\RegesTestCase;
+use slash197\Reges\Envelope;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Exception\ValidationException;
+use slash197\Reges\Message;
+use slash197\Reges\MessageType;
+use slash197\Reges\Operation;
+use slash197\Reges\Support\Uuid;
+use slash197\Reges\Tests\Support\RegesTestCase;
 
 final class SendTest extends RegesTestCase
 {

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Auth;
+namespace slash197\Reges\Auth;
 
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
-use Slash197\Reges\Config;
-use Slash197\Reges\Credentials;
-use Slash197\Reges\Exception\AuthenticationException;
-use Slash197\Reges\Http\Transport;
-use Slash197\Reges\Support\Json;
+use slash197\Reges\Config;
+use slash197\Reges\Credentials;
+use slash197\Reges\Exception\AuthenticationException;
+use slash197\Reges\Http\Transport;
+use slash197\Reges\Support\Json;
 
 /**
  * @internal

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges;
+namespace slash197\Reges;
 
 /**
  * An employer-defined bonus type (TipSporAngajator).

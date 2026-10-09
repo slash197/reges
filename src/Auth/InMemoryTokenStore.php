@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Auth;
+namespace slash197\Reges\Auth;
 
 final class InMemoryTokenStore implements TokenStore
 {

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * Needs REGES_CLIENT_ID, REGES_CLIENT_SECRET, REGES_USERNAME and REGES_PASSWORD.
  */
 
-use Slash197\Reges\Exception\RegesException;
+use slash197\Reges\Exception\RegesException;
 
-/** @var Slash197\Reges\Reges $reges */
+/** @var slash197\Reges\Reges $reges */
 $reges = require dirname(__DIR__) . '/examples/bootstrap.php';
 
 $step = static function (string $label, callable $call): void {

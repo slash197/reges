@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges;
+namespace slash197\Reges;
 
-use Slash197\Reges\Data\Actiune;
-use Slash197\Reges\Data\ContinutContract;
-use Slash197\Reges\Data\DetaliiPropunereDetasare;
-use Slash197\Reges\Data\DetaliiPropunereMutare;
-use Slash197\Reges\Data\DocumentJustificativ;
-use Slash197\Reges\Data\InfoSalariat;
-use Slash197\Reges\Support\Json;
+use slash197\Reges\Data\Actiune;
+use slash197\Reges\Data\ContinutContract;
+use slash197\Reges\Data\DetaliiPropunereDetasare;
+use slash197\Reges\Data\DetaliiPropunereMutare;
+use slash197\Reges\Data\DocumentJustificativ;
+use slash197\Reges\Data\InfoSalariat;
+use slash197\Reges\Support\Json;
 
 /**
  * One operation to report to REGES, described with typed objects.

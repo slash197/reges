@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Unit;
+namespace slash197\Reges\Tests\Unit;
 
 use Psr\Log\AbstractLogger;
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Message;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Tests\Support\RegesTestCase;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Message;
+use slash197\Reges\Operation;
+use slash197\Reges\Tests\Support\RegesTestCase;
 
 final class ServicesTest extends RegesTestCase
 {
@@ -200,7 +200,7 @@ final class ServicesTest extends RegesTestCase
         }
     }
 
-    private function regesWithEmployer(): \Slash197\Reges\Reges
+    private function regesWithEmployer(): \slash197\Reges\Reges
     {
         $reges = $this->reges();
         $this->http->respond(200, ['referintaAngajator' => ['id' => self::ANGAJATOR_ID]]);

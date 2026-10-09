@@ -33,12 +33,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Slash197\\Reges\\": "src/"
+            "slash197\\Reges\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Slash197\\Reges\\Tests\\": "tests/"
+            "slash197\\Reges\\Tests\\": "tests/"
         }
     },
     "config": {

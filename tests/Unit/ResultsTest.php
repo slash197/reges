@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Unit;
+namespace slash197\Reges\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Results\Result;
-use Slash197\Reges\Results\Results;
-use Slash197\Reges\Tests\Support\RegesTestCase;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Operation;
+use slash197\Reges\Results\Result;
+use slash197\Reges\Results\Results;
+use slash197\Reges\Tests\Support\RegesTestCase;
 
 final class ResultsTest extends RegesTestCase
 {

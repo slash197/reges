@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges;
+namespace slash197\Reges;
 
-use Slash197\Reges\Support\Json;
+use slash197\Reges\Support\Json;
 
 /**
  * A message in its final wire form, header included, ready to be posted.

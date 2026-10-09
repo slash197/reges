@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Data;
+namespace slash197\Reges\Data;
 
-use Slash197\Reges\Support\Dates;
-use Slash197\Reges\Support\Json;
+use slash197\Reges\Support\Dates;
+use slash197\Reges\Support\Json;
 
 final readonly class TimpMunca
 {

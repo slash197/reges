@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Data;
+namespace slash197\Reges\Data;
 
 /**
  * Something that happens to an existing contract: termination, suspension,

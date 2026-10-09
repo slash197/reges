@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Unit;
+namespace slash197\Reges\Tests\Unit;
 
-use Slash197\Reges\Auth\Token;
-use Slash197\Reges\Config;
-use Slash197\Reges\Credentials;
-use Slash197\Reges\Environment;
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Exception\AuthenticationException;
-use Slash197\Reges\Reges;
-use Slash197\Reges\Tests\Support\RegesTestCase;
+use slash197\Reges\Auth\Token;
+use slash197\Reges\Config;
+use slash197\Reges\Credentials;
+use slash197\Reges\Environment;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Exception\AuthenticationException;
+use slash197\Reges\Reges;
+use slash197\Reges\Tests\Support\RegesTestCase;
 
 final class AuthTest extends RegesTestCase
 {

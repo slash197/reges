@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges;
+namespace slash197\Reges;
 
 use Psr\Http\Message\ResponseInterface;
-use Slash197\Reges\Exception\ApiException;
-use Slash197\Reges\Http\Connection;
-use Slash197\Reges\Http\Transport;
-use Slash197\Reges\Support\Json;
+use slash197\Reges\Exception\ApiException;
+use slash197\Reges\Http\Connection;
+use slash197\Reges\Http\Transport;
+use slash197\Reges\Support\Json;
 
 /**
  * Manages the bonus types an employer defines for itself (TipSporAngajator),

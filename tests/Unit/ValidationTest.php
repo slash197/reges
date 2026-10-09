@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Unit;
+namespace slash197\Reges\Tests\Unit;
 
-use Slash197\Reges\Data\ActiuneDetasare;
-use Slash197\Reges\Data\ActiuneSuspendare;
-use Slash197\Reges\Data\ContinutContract;
-use Slash197\Reges\Data\DetaliiPropunereDetasare;
-use Slash197\Reges\Data\DetaliiPropunereMutare;
-use Slash197\Reges\Data\DocumentJustificativ;
-use Slash197\Reges\Data\InfoSalariat;
-use Slash197\Reges\Data\TimpMunca;
-use Slash197\Reges\Exception\ValidationException;
-use Slash197\Reges\Message;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Support\Dates;
-use Slash197\Reges\Tests\Support\RegesTestCase;
-use Slash197\Reges\Validation\NomenclatorLookup;
+use slash197\Reges\Data\ActiuneDetasare;
+use slash197\Reges\Data\ActiuneSuspendare;
+use slash197\Reges\Data\ContinutContract;
+use slash197\Reges\Data\DetaliiPropunereDetasare;
+use slash197\Reges\Data\DetaliiPropunereMutare;
+use slash197\Reges\Data\DocumentJustificativ;
+use slash197\Reges\Data\InfoSalariat;
+use slash197\Reges\Data\TimpMunca;
+use slash197\Reges\Exception\ValidationException;
+use slash197\Reges\Message;
+use slash197\Reges\Operation;
+use slash197\Reges\Support\Dates;
+use slash197\Reges\Tests\Support\RegesTestCase;
+use slash197\Reges\Validation\NomenclatorLookup;
 
 final class ValidationTest extends RegesTestCase
 {

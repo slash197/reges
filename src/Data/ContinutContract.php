@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Data;
+namespace slash197\Reges\Data;
 
-use Slash197\Reges\Support\Dates;
-use Slash197\Reges\Support\Json;
-use Slash197\Reges\Support\Uuid;
+use slash197\Reges\Support\Dates;
+use slash197\Reges\Support\Json;
+use slash197\Reges\Support\Uuid;
 
 /**
  * The content of an employment contract. Every field is optional here so that

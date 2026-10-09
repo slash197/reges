@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Validation;
+namespace slash197\Reges\Validation;
 
-use Slash197\Reges\Exception\ValidationException;
-use Slash197\Reges\MessageType;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Support\Dates;
-use Slash197\Reges\Support\Uuid;
+use slash197\Reges\Exception\ValidationException;
+use slash197\Reges\MessageType;
+use slash197\Reges\Operation;
+use slash197\Reges\Support\Dates;
+use slash197\Reges\Support\Uuid;
 
 /**
  * Checks a message body against what its operation needs, so that an

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Support;
+namespace slash197\Reges\Tests\Support;
 
 use Psr\Clock\ClockInterface;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Exception;
+namespace slash197\Reges\Exception;
 
 use Psr\Http\Message\ResponseInterface;
 

@@ -17,10 +17,10 @@ Names that travel on the wire are kept in Romanian, exactly as in the REGES sche
 
 ```php
 use GuzzleHttp\Client;
-use Slash197\Reges\Config;
-use Slash197\Reges\Credentials;
-use Slash197\Reges\Environment;
-use Slash197\Reges\Reges;
+use slash197\Reges\Config;
+use slash197\Reges\Credentials;
+use slash197\Reges\Environment;
+use slash197\Reges\Reges;
 
 $reges = new Reges(
     new Config(
@@ -40,9 +40,9 @@ Access tokens are requested on demand and reused until a minute before they expi
 ### Sending a message
 
 ```php
-use Slash197\Reges\Data\InfoSalariat;
-use Slash197\Reges\Message;
-use Slash197\Reges\Operation;
+use slash197\Reges\Data\InfoSalariat;
+use slash197\Reges\Message;
+use slash197\Reges\Operation;
 
 $receipt = $reges->send(
     Message::salariat(Operation::InregistrareSalariat, new InfoSalariat(
@@ -71,7 +71,7 @@ To queue messages yourself, build the final wire form with `$reges->envelope($me
 REGES processes messages asynchronously and puts each outcome in a queue. Results are read in two steps so that none is lost if your code fails halfway:
 
 ```php
-use Slash197\Reges\Results\Result;
+use slash197\Reges\Results\Result;
 
 $reges->results()->consume(function (Result $result): void {
     // Store it durably. The queue only advances once this returns;

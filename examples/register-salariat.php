@@ -8,12 +8,12 @@ declare(strict_types=1);
  *     make run f=examples/register-salariat.php
  */
 
-use Slash197\Reges\Data\InfoSalariat;
-use Slash197\Reges\Message;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Support\Dates;
+use slash197\Reges\Data\InfoSalariat;
+use slash197\Reges\Message;
+use slash197\Reges\Operation;
+use slash197\Reges\Support\Dates;
 
-/** @var Slash197\Reges\Reges $reges */
+/** @var slash197\Reges\Reges $reges */
 $reges = require __DIR__ . '/bootstrap.php';
 require __DIR__ . '/live.php';
 

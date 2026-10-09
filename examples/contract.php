@@ -8,21 +8,20 @@ declare(strict_types=1);
  *     make run f="examples/contract.php add"        AdaugareContract for the employee from register-salariat.php
  *     make run f="examples/contract.php modify"     ModificareContract: raises the salary
  *     make run f="examples/contract.php terminate"  IncetareContract
+ *     make run f="examples/contract.php reactivate" ReactivareContract, after a termination
  *
  * Append "bare" to "terminate" to send nothing but what the operation itself
  * needs, i.e. without the contract content.
  */
 
-use Slash197\Reges\Data\ActiuneIncetare;
-use Slash197\Reges\Data\ContinutContract;
-use Slash197\Reges\Data\Cor;
-use Slash197\Reges\Data\DocumentJustificativ;
-use Slash197\Reges\Data\TimpMunca;
-use Slash197\Reges\Message;
-use Slash197\Reges\Operation;
-use Slash197\Reges\Support\Dates;
+use slash197\Reges\Data\ActiuneIncetare;
+use slash197\Reges\Data\ActiuneReactivare;
+use slash197\Reges\Data\DocumentJustificativ;
+use slash197\Reges\Message;
+use slash197\Reges\Operation;
+use slash197\Reges\Support\Dates;
 
-/** @var Slash197\Reges\Reges $reges */
+/** @var slash197\Reges\Reges $reges */
 $reges = require __DIR__ . '/bootstrap.php';
 require __DIR__ . '/live.php';
 
@@ -42,37 +41,12 @@ $load = static function (string $file, string $hint): array {
 };
 
 $salariat = $load($salariatFile, 'Run examples/register-salariat.php first.');
-$today = Dates::date((new DateTimeImmutable('now', new DateTimeZone(Dates::TIMEZONE)))->format('Y-m-d'));
-
 // The contract keeps the dates it was added with, whenever the later steps run.
 $start = is_file($contractFile)
     ? Dates::date(json_decode((string) file_get_contents($contractFile), true)['start'])
-    : $today;
+    : today();
 
-$continut = static fn (int $salariu): ContinutContract => new ContinutContract(
-    referintaSalariat: $salariat['id'],
-    cor: new Cor(251201, 11),
-    dataContract: $start->modify('-1 day'),
-    dataInceputContract: $start,
-    numarContract: 'TEST-' . substr($salariat['cnp'], -4),
-    salariu: $salariu,
-    timpMunca: new TimpMunca(
-        norma: 'NormaIntreaga840',
-        repartizare: 'OreDeZi',
-        durata: 8,
-        intervalTimp: 'OrePeZi',
-        repartizareMunca: 'Zilnic',
-        inceputInterval: $start->setTime(9, 0),
-        sfarsitInterval: $start->setTime(17, 0),
-    ),
-    tipContract: 'ContractIndividualMunca',
-    tipDurata: 'Nedeterminata',
-    tipNorma: 'NormaIntreaga',
-    tipLocMunca: 'Fix',
-    judetLocMunca: 'MS',
-    localitateLocMunca: 114328,
-    nivelStudii: 'Superioare',
-);
+$continut = static fn (int $salariu) => testContinut($salariat['id'], 'TEST-' . substr($salariat['cnp'], -4), $start, $salariu);
 
 if ($step === 'add') {
     $result = sendAndAwait($reges, Message::contract(Operation::AdaugareContract, continut: $continut(5000)));
@@ -103,12 +77,23 @@ if ($step === 'terminate') {
         Operation::IncetareContract,
         $contract['id'],
         $bare ? null : $continut(5500),
-        new ActiuneIncetare($today->modify('+1 day'), 'Art55LitB', 'Acordul partilor'),
-        new DocumentJustificativ('Decizie', 'D-1', $today),
+        new ActiuneIncetare(today('+1 day'), 'Art55LitB', 'Acordul partilor'),
+        new DocumentJustificativ('Decizie', 'D-1', today()),
     ));
 
     exit;
 }
 
-fwrite(STDERR, "Usage: make run f=\"examples/contract.php add|modify|terminate [bare]\"\n");
+if ($step === 'reactivate') {
+    sendAndAwait($reges, Message::contract(
+        Operation::ReactivareContract,
+        $contract['id'],
+        actiune: new ActiuneReactivare(today('+2 days'), 'Reintegrare', 'Reintegrare in munca'),
+        documentJustificativ: new DocumentJustificativ('HotarareJudecatoreasca', 'H-1', today()),
+    ));
+
+    exit;
+}
+
+fwrite(STDERR, "Usage: make run f=\"examples/contract.php add|modify|terminate [bare]|reactivate\"\n");
 exit(2);

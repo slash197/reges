@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Http;
+namespace slash197\Reges\Http;
 
 use Psr\Http\Message\ResponseInterface;
-use Slash197\Reges\Auth\Authenticator;
-use Slash197\Reges\Config;
+use slash197\Reges\Auth\Authenticator;
+use slash197\Reges\Config;
 
 /**
  * Requests against the REGES API host, with the bearer token added.

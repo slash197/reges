@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Tests\Support;
+namespace slash197\Reges\Tests\Support;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Slash197\Reges\Auth\InMemoryTokenStore;
-use Slash197\Reges\Auth\Token;
-use Slash197\Reges\Config;
-use Slash197\Reges\Credentials;
-use Slash197\Reges\Data\ContinutContract;
-use Slash197\Reges\Data\Cor;
-use Slash197\Reges\Data\InfoSalariat;
-use Slash197\Reges\Data\TimpMunca;
-use Slash197\Reges\Environment;
-use Slash197\Reges\Reges;
-use Slash197\Reges\Support\Dates;
-use Slash197\Reges\Validation\NomenclatorLookup;
+use slash197\Reges\Auth\InMemoryTokenStore;
+use slash197\Reges\Auth\Token;
+use slash197\Reges\Config;
+use slash197\Reges\Credentials;
+use slash197\Reges\Data\ContinutContract;
+use slash197\Reges\Data\Cor;
+use slash197\Reges\Data\InfoSalariat;
+use slash197\Reges\Data\TimpMunca;
+use slash197\Reges\Environment;
+use slash197\Reges\Reges;
+use slash197\Reges\Support\Dates;
+use slash197\Reges\Validation\NomenclatorLookup;
 
 abstract class RegesTestCase extends TestCase
 {

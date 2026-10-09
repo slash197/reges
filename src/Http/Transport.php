@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Http;
+namespace slash197\Reges\Http;
 
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -10,7 +10,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
-use Slash197\Reges\Exception\ApiException;
+use slash197\Reges\Exception\ApiException;
 
 /**
  * Sends one HTTP request and logs what happened. Only metadata is logged:

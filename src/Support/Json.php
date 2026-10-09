@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Slash197\Reges\Support;
+namespace slash197\Reges\Support;
 
 final class Json
 {

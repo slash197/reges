@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 use GuzzleHttp\Client;
 use Psr\Log\AbstractLogger;
-use Slash197\Reges\Config;
-use Slash197\Reges\Credentials;
-use Slash197\Reges\Environment;
-use Slash197\Reges\Reges;
+use slash197\Reges\Config;
+use slash197\Reges\Credentials;
+use slash197\Reges\Environment;
+use slash197\Reges\Reges;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
