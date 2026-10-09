@@ -7,6 +7,10 @@ declare(strict_types=1);
  * REGES_USERNAME (source) and the one in REGES_USERNAME_2 (destination).
  *
  *     make run f="examples/proposals.php detasare"           secondment: proposed, accepted, ended
+ *     make run f="examples/proposals.php detasare-respingere" secondment: proposed, rejected by the destination
+ *     make run f="examples/proposals.php detasare-radiere"   secondment: proposed, changed, withdrawn by the source
+ *     make run f="examples/proposals.php detasare-actiuni"   secondment: accepted, then extended, changed and ended
+ *                                                            through contract operations of the source
  *     make run f="examples/proposals.php mutare-radiere"     transfer: proposed, withdrawn by the source
  *     make run f="examples/proposals.php mutare-respingere"  transfer: proposed, rejected by the destination
  *     make run f="examples/proposals.php mutare-acceptare"   transfer: proposed, accepted by the destination
@@ -17,6 +21,8 @@ declare(strict_types=1);
  * moved even after the proposal is withdrawn, and takes no further proposal.
  */
 
+use slash197\Reges\Data\ActiuneDetasare;
+use slash197\Reges\Data\Cor;
 use slash197\Reges\Data\DetaliiPropunereDetasare;
 use slash197\Reges\Data\DetaliiPropunereMutare;
 use slash197\Reges\Data\InfoSalariat;
@@ -31,8 +37,9 @@ $destinatie = regesFor('_2');
 require __DIR__ . '/live.php';
 
 $flow = $argv[1] ?? '';
-if (!in_array($flow, ['detasare', 'mutare-radiere', 'mutare-respingere', 'mutare-acceptare'], true)) {
-    fwrite(STDERR, "Usage: make run f=\"examples/proposals.php detasare|mutare-radiere|mutare-respingere|mutare-acceptare\"\n");
+$flows = ['detasare', 'detasare-respingere', 'detasare-radiere', 'detasare-actiuni', 'mutare-radiere', 'mutare-respingere', 'mutare-acceptare'];
+if (!in_array($flow, $flows, true)) {
+    fwrite(STDERR, 'Usage: make run f="examples/proposals.php ' . implode('|', $flows) . "\"\n");
     exit(2);
 }
 
@@ -57,7 +64,7 @@ $numar = 'TEST-' . substr($state['cnp'], -4);
 $info = new InfoSalariat(
     cnp: $state['cnp'],
     nume: 'TESTESCU',
-    prenume: $flow === 'detasare' ? 'DAN' : 'VASILE',
+    prenume: str_starts_with($flow, 'detasare') ? 'DAN' : 'VASILE',
     adresa: 'STR. EXEMPLU, NR. 4',
     tipActIdentitate: 'CarteIdentitate',
     taraDomiciliu: 'România',
@@ -69,45 +76,105 @@ $continut = fn () => testContinut($progress->state['salariat'], $numar, $start, 
 $progress->step('salariat', fn () => Message::salariat(Operation::InregistrareSalariat, $info));
 $progress->step('contract', fn () => Message::contract(Operation::AdaugareContract, continut: $continut()));
 
-if ($flow === 'detasare') {
+if (str_starts_with($flow, 'detasare')) {
     // The secondment starts with the contract. One that starts in the future
     // puts a future-dated entry in the contract's history; REGES then refuses
     // every operation recorded before that date, and cannot end the proposal.
     $from = $start;
     $until = $start->modify('+60 days');
 
+    $detalii = fn (DateTimeImmutable $until) => new DetaliiPropunereDetasare(
+        temeiDetasare: 'CodulMuncii',
+        cuiAngajatorDestinatie: $state['destinatie']['cui'],
+        numeAngajatorDestinatie: $state['destinatie']['nume'],
+        nationalitateAngajatorDestinatie: 'România',
+        cuiAngajatorSursa: $state['sursa']['cui'],
+        dataPropunere: today(),
+        numarPropunere: "PD-{$numar}",
+        dataInceput: $from,
+        dataSfarsit: $until,
+    );
+
     $progress->step('propunere', fn () => Message::propunereDetasare(
         Operation::PropunereDetasareContract,
         referintaContract: $state['contract'],
-        detalii: new DetaliiPropunereDetasare(
-            temeiDetasare: 'CodulMuncii',
-            cuiAngajatorDestinatie: $state['destinatie']['cui'],
-            numeAngajatorDestinatie: $state['destinatie']['nume'],
-            nationalitateAngajatorDestinatie: 'România',
-            cuiAngajatorSursa: $state['sursa']['cui'],
-            dataPropunere: today(),
-            numarPropunere: "PD-{$numar}",
-            dataInceput: $from,
-            dataSfarsit: $until,
-        ),
+        detalii: $detalii($until),
         continutContract: $continut(),
         infoSalariat: $info,
         noteSursa: 'Propunere de test',
     ));
 
-    $progress->step('acceptare', fn () => Message::propunereDetasare(
+    $acceptare = fn () => Message::propunereDetasare(
         Operation::AcceptarePropunereDetasareContract,
         $state['propunere'],
         $state['contract'],
         continutContract: $continut(),
         infoSalariat: $info,
         noteDestinatie: 'De acord',
-    ), $destinatie);
+    );
 
-    $progress->step('incetare', fn () => Message::propunereDetasare(
-        Operation::IncetarePropunereDetasareContract,
-        $state['propunere'],
-    ));
+    if ($flow === 'detasare') {
+        $progress->step('acceptare', $acceptare, $destinatie);
+        $progress->step('incetare', fn () => Message::propunereDetasare(
+            Operation::IncetarePropunereDetasareContract,
+            $state['propunere'],
+        ));
+    }
+
+    if ($flow === 'detasare-respingere') {
+        $progress->step('respingere', fn () => Message::propunereDetasare(
+            Operation::RespingerePropunereDetasareContract,
+            $state['propunere'],
+            noteDestinatie: 'Nu este cazul',
+        ), $destinatie);
+    }
+
+    if ($flow === 'detasare-radiere') {
+        $progress->step('modificare', fn () => Message::propunereDetasare(
+            Operation::ModificarePropunereDetasareContract,
+            $state['propunere'],
+            $state['contract'],
+            $detalii($until->modify('+30 days')),
+            $continut(),
+            $info,
+        ), optional: true);
+        $progress->step('radiere', fn () => Message::propunereDetasare(
+            Operation::RadierePropunereDetasareContract,
+            $state['propunere'],
+        ));
+    }
+
+    if ($flow === 'detasare-actiuni') {
+        $progress->step('acceptare', $acceptare, $destinatie);
+
+        // Once accepted, the secondment is managed by the source employer on
+        // its own contract, the one REGES marked as seconded. The contract
+        // created at the destination is never in that state.
+        $actiune = fn (DateTimeImmutable $until, ?DateTimeImmutable $incetare = null) => new ActiuneDetasare(
+            temeiDetasare: 'CodulMuncii',
+            angajatorCui: $state['destinatie']['cui'],
+            angajatorNume: $state['destinatie']['nume'],
+            cor: new Cor(251201, 11),
+            dataInceput: $from,
+            dataSfarsit: $until,
+            nationalitate: 'România',
+            dataIncetareDetasare: $incetare,
+        );
+        $operatie = fn (string $name, Operation $operation, ?ActiuneDetasare $actiune = null) => $progress->step(
+            $name,
+            fn () => Message::contract($operation, $state['contract'], actiune: $actiune),
+            optional: true,
+        );
+
+        $operatie('prelungire', Operation::PrelungireDetasareContract, $actiune($until->modify('+30 days')));
+        // REGES only takes a change that moves the end date further out.
+        $operatie('modificare', Operation::ModificareDetasareContract, $actiune($until->modify('+40 days')));
+        $operatie('corectie', Operation::CorectieDetasareContract, $actiune($until->modify('+45 days')));
+        $operatie('incetare', Operation::IncetareDetasareContract, $actiune($until->modify('+45 days'), $start->modify('+10 days')));
+        $operatie('corectieIncetare', Operation::CorectieIncetareDetasareContract, $actiune($until->modify('+45 days'), $start->modify('+12 days')));
+        $operatie('anulareIncetare', Operation::AnulareIncetareDetasareContract);
+        $operatie('anulare', Operation::AnulareDetasareContract);
+    }
 }
 
 if (str_starts_with($flow, 'mutare-')) {
