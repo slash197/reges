@@ -205,10 +205,10 @@ final class ValidationTest extends RegesTestCase
     {
         $detalii = fn (string $tipMutare) => new DetaliiPropunereMutare(
             tipMutare: $tipMutare,
-            cuiAngajatorDestinatie: '29451076',
+            cuiAngajatorDestinatie: '10000002',
             numeAngajatorDestinatie: 'DESTINATIE SRL',
             nationalitateAngajatorDestinatie: 'ROMÂNIA',
-            cuiAngajatorSursa: '13373052',
+            cuiAngajatorSursa: '10000001',
             dataPropunere: Dates::date('2026-03-05'),
             numarPropunere: 'PM-1',
             dataInceput: Dates::date('2026-04-01'),

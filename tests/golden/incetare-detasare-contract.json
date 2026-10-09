@@ -17,7 +17,7 @@
     "actiune": {
         "$type": "actiuneDetasare",
         "temeiDetasare": "Transnationala",
-        "angajatorCui": "29451076112",
+        "angajatorCui": "10000002",
         "angajatorNume": "SAP AG",
         "cor": {
             "cod": 251204,

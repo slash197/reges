@@ -186,10 +186,10 @@ final class MessageBodyTest extends RegesTestCase
 
     public function testCuiIsSentWithoutTheCountryPrefix(): void
     {
-        $detalii = (new DetaliiPropunereMutare(cuiAngajatorDestinatie: ' ro 29451076 ', cuiAngajatorSursa: '13373052'))->toArray();
+        $detalii = (new DetaliiPropunereMutare(cuiAngajatorDestinatie: ' ro 10000002 ', cuiAngajatorSursa: '10000001'))->toArray();
 
-        self::assertSame('29451076', $detalii['cuiAngajatorDestinatie']);
-        self::assertSame('13373052', $detalii['cuiAngajatorSursa']);
+        self::assertSame('10000002', $detalii['cuiAngajatorDestinatie']);
+        self::assertSame('10000001', $detalii['cuiAngajatorSursa']);
         self::assertArrayNotHasKey('cuiAngajatorDestinatie', (new DetaliiPropunereMutare(cuiAngajatorDestinatie: 'RO'))->toArray());
     }
 

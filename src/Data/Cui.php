@@ -10,7 +10,7 @@ namespace slash197\Reges\Data;
 final class Cui
 {
     /**
-     * REGES wants the bare fiscal code: "RO 13373052" becomes "13373052".
+     * REGES wants the bare fiscal code: "RO 10000001" becomes "10000001".
      */
     public static function normalize(?string $cui): ?string
     {
