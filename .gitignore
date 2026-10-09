@@ -4,5 +4,6 @@
 /.phpunit.result.cache
 /.idea/
 /.vscode/
+/.claude
 .env
 *.code-workspace
