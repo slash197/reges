@@ -1,6 +1,7 @@
 # reges
 
 [![CI](https://github.com/slash197/reges/actions/workflows/ci.yml/badge.svg)](https://github.com/slash197/reges/actions/workflows/ci.yml)
+[![Latest version](https://img.shields.io/packagist/v/slash197/reges)](https://packagist.org/packages/slash197/reges)
 
 PHP client for the [REGES Online](https://reges.inspectiamuncii.ro) API, the Romanian general register of employees run by Inspecția Muncii.
 
