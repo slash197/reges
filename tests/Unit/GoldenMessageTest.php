@@ -119,7 +119,7 @@ final class GoldenMessageTest extends RegesTestCase
                     ],
                     tipLocMunca: 'Fix',
                     judetLocMunca: 'CJ',
-                    localitateLocMunca: 54975,
+                    localitateLocMunca: 54984,
                 ),
             ),
 

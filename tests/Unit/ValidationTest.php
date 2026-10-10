@@ -136,7 +136,7 @@ final class ValidationTest extends RegesTestCase
         );
         self::assertSame(['continut.timpMunca.tipTura'], $errors(timpMunca: $timpMunca('Schimburi')));
         self::assertSame(['continut.localitateLocMunca.codSiruta'], $errors(tipLocMunca: 'Fix'));
-        self::assertSame([], $errors(tipLocMunca: 'Fix', localitateLocMunca: 54975));
+        self::assertSame([], $errors(tipLocMunca: 'Fix', localitateLocMunca: 54984));
     }
 
     public function testExtendedContentIsNotCheckedOnProposals(): void

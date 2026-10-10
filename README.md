@@ -161,7 +161,7 @@ $continut = new ContinutContract(
     tipNorma: 'NormaIntreaga',
     tipLocMunca: 'Fix',
     judetLocMunca: 'CJ',
-    localitateLocMunca: 54975, // SIRUTA code
+    localitateLocMunca: 54984, // SIRUTA code of Cluj-Napoca
     nivelStudii: 'Superioare',
 );
 
