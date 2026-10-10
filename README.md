@@ -45,6 +45,16 @@ Names that travel on the wire are kept in Romanian, exactly as in the REGES sche
 composer require slash197/reges
 ```
 
+### Laravel
+
+For a Laravel application, install [slash197/reges-laravel](https://github.com/slash197/reges-laravel) instead. It requires this package and adds what a framework can take care of: the client configured from `.env` and bound in the container, for one company or one API key per tenant; an outbox that stores messages, sends them in order, retries them and matches each to its result; events for the outcome; and a local copy of the nomenclators that validation checks.
+
+```sh
+composer require slash197/reges-laravel
+```
+
+Messages are built the same way either way, so the rest of this README applies to both.
+
 ## Getting started
 
 ### Credentials
@@ -391,7 +401,7 @@ $reges->bonusTypes()->delete($bonus->id, 'Spor de loialitate');
 
 ## Queueing messages
 
-Applications that report from a queue, to retry on failure and keep each contract's messages in order, need to store a message and send it later. An `Envelope` is a message in its final wire form:
+Applications that report from a queue, to retry on failure and keep each contract's messages in order, need to store a message and send it later. The [Laravel bridge](https://github.com/slash197/reges-laravel) does this for you; elsewhere, an `Envelope` is a message in its final wire form:
 
 ```php
 use slash197\Reges\Envelope;
@@ -447,6 +457,8 @@ It is a client for the API and stops there. Deliberately left to the application
 - queueing, ordering messages per contract, retry schedules and backoff;
 - deciding which operation a change in your data amounts to;
 - keeping a local copy of the nomenclators.
+
+For Laravel, [slash197/reges-laravel](https://github.com/slash197/reges-laravel) takes on the first two, and keeps a copy of the nomenclators that validation checks.
 
 ## Development
 
